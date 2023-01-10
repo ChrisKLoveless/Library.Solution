@@ -15,12 +15,27 @@
     <div class="jumbotron">
       <h1 id="jumbotron">Library</h1>
     </div>
+    <div id="nav">
+		<div class="row">
+			<div class="col-4">
+				<p>@Html.ActionLink("Back Home", "Index", "Home")</p>
+			</div>
+			<div class="col-4">
+				<p>@Html.ActionLink("Manage Authors", "Index", "Authors")</p>
+			</div>
+			<div class="col-4">
+				<p>@Html.ActionLink("Manage Titles", "Index", "Titles")</p>
+			</div>
+		</div>
+	</div>
   @RenderBody()
 @* vvvvv Insert Divs creating FileName.cshtml in Shared folder with <div></div> vvvvv *@
   @* @await Html.PartialAsync("FileName") *@
 
   @* Insert photo using ===>  src='~/img/FileName.jpg' *@
   </div>
+
+  @* @await Html.PartialAsync("Footer") *@
 </body>
 
 </html>

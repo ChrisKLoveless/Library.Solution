@@ -1,4 +1,5 @@
 using System;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Identity;
@@ -44,7 +45,10 @@ namespace Library.Controllers
 
     public ActionResult Details(int id)
     {
-      Author thisAuthor = _db.Authors.FirstOrDefault(author => author.AuthorId == id);
+      Author thisAuthor = _db.Authors
+      .Include(author => author.JoinEntities)
+      .ThenInclude(join => join.Title)
+      .FirstOrDefault(author => author.AuthorId == id);
       return View(thisAuthor);
     }
 
@@ -76,5 +80,35 @@ namespace Library.Controllers
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
+
+    public ActionResult AddTitle(int id)
+    {
+      Author thisAuthor = _db.Authors.FirstOrDefault(authors => authors.AuthorId == id);
+      ViewBag.TitleId = new SelectList(_db.Titles, "TitleId", "Name");
+      return View(thisAuthor);
+    }
+
+    [HttpPost]
+    public ActionResult AddTitle(Author author, int titleId)
+    {
+        #nullable enable
+      AuthorTitle? joinEntity = _db.AuthorTitles.FirstOrDefault(join => (join.TitleId == titleId && join.AuthorId == author.AuthorId));
+      #nullable disable
+      if (joinEntity == null && titleId != 0)
+      {
+        _db.AuthorTitles.Add(new AuthorTitle() { TitleId = titleId, AuthorId = author.AuthorId });
+        _db.SaveChanges();
+      }
+      return RedirectToAction("Details", new { id = author.AuthorId });
+    }
+
+    [HttpPost]
+    public ActionResult DeleteJoin(int joinId)
+    {
+      AuthorTitle joinEntry = _db.AuthorTitles.FirstOrDefault(entry => entry.AuthorTitleId == joinId);
+      _db.AuthorTitles.Remove(joinEntry);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    } 
   }
 }

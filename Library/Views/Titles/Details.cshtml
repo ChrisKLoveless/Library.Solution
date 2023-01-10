@@ -10,5 +10,27 @@
 
 <h3>@Html.DisplayNameFor(model => model.Name): @Html.DisplayFor(model => model.Name)</h3>
 
+@if(@Model.JoinEntities.Count == 0)
+{
+  <p>This Title does not belong to any Authors</p>
+}
+else
+{
+  <h4>Author:</h4>
+  
+  @foreach(AuthorTitle join in Model.JoinEntities)
+  {
+    <h3>@join.Author.Name</h3>
+    @using (Html.BeginForm("DeleteJoin", "Titles"))
+    {
+      @Html.Hidden("joinId", @join.AuthorTitleId)
+      <input type="submit" value="Delete"/>
+    }
+  }
+  
+}
+
 <p>@Html.ActionLink("Back to List", "Index")</p>
-<p>@Html.ActionLink("Edit this Title", "Edit")</p>
+<p>@Html.ActionLink("Edit this Title", "Edit", new { id = Model.TitleId})</p>
+<p>@Html.ActionLink("Delete this Title", "Delete", new { id = Model.TitleId})</p>
+<p>@Html.ActionLink("Add an Author", "AddAuthor", new { id = Model.TitleId })</p>

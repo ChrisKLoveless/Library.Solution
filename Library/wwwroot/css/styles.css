@@ -1,3 +1,4 @@
+
 .jumbotron {
   text-align: center;
   background-color: rgb(104, 184, 139);
@@ -5,4 +6,16 @@
 
 #jumbotron {
   font-size: 300%;
+}
+
+#nav {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  height: 40px;
+  width: 100%;
+  color: #CCC;
+  background: #b9cdd3;
+  padding: 5px;
+  margin: auto;
 }
