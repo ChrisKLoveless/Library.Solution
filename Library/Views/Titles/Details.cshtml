@@ -1,0 +1,14 @@
+@{
+  Layout = "_Layout";
+}
+
+@using Library.Models;
+@model Library.Models.Title;
+
+
+<h1>Title Details</h1>
+
+<h3>@Html.DisplayNameFor(model => model.Name): @Html.DisplayFor(model => model.Name)</h3>
+
+<p>@Html.ActionLink("Back to List", "Index")</p>
+<p>@Html.ActionLink("Edit this Title", "Edit")</p>
