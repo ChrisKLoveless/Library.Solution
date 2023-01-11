@@ -11,7 +11,7 @@ using System.Security.Claims;
 
 namespace Library.Controllers
 {
-  [Authorize]
+  [Authorize(Roles = "admin, user")]
   public class TitlesController : Controller
   {
     private readonly LibraryContext _db;
@@ -27,11 +27,13 @@ namespace Library.Controllers
       return View(titles);
     }
 
+    [Authorize(Roles = "admin")]
     public ActionResult Create()
     {
       ViewBag.AuthorId = new SelectList(_db.Authors, "AuthorId", "Name");
       return View();
     }
+
 
     [HttpPost]
     public ActionResult Create(Title titles)
@@ -43,10 +45,6 @@ namespace Library.Controllers
       else
       {
         _db.Titles.Add(titles);
-        for (int i = 1; i <= titles.Copies; i++) 
-        {
-          
-        }
         _db.SaveChanges();
         return RedirectToAction("Index");
       }

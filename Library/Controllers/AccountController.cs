@@ -19,6 +19,11 @@ namespace Library.Controllers
       _db = db;
     }
 
+    public IActionResult AccessDenied()
+    {
+      return View();
+    }
+
     public ActionResult Index()
     {
       return View();

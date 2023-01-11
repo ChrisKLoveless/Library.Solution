@@ -11,7 +11,6 @@ using System.Security.Claims;
 
 namespace Library.Controllers
 {
-  [Authorize]
   public class AuthorsController : Controller
   {
     private readonly LibraryContext _db;
@@ -27,6 +26,7 @@ namespace Library.Controllers
       return View(authors);
     }
 
+  [Authorize(Roles = "admin")]
     public ActionResult Create()
     {
       return View();
