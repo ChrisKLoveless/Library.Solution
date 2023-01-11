@@ -2,6 +2,33 @@
   Layout = "_Layout";
 }
 
+@using Library.Models;
+
 <h1>Welcome to the Library</h1>
+
+<hr>
+
+
+@if (User.Identity.IsAuthenticated)
+{
+<h4><u>Authors for @User.Identity.Name</u></h4>
+@if (Model["authors"].Length == 0)
+{
+  <p>No authors have been added yet!</p>
+} 
+<ul>
+  @foreach (Author author in Model["authors"])
+  {
+    <li>@Html.ActionLink(@author.Name, "Details", "Authors", new { id = @author.AuthorId})</li>
+  }
+</ul>
+}
+else
+{
+  <h4>No Books Found</h4>
+  <p>Please @Html.ActionLink("log in", "LogIn", "Account") to view or manage your Titles.</p>
+}
+
+<hr>
 
 <p>@Html.ActionLink("Create or manage an account", "Index", "Account")</p>

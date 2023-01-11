@@ -20,7 +20,7 @@ else
   
   @foreach(AuthorTitle join in Model.JoinEntities)
   {
-    <h3>@join.Title.Name</h3>
+    <h3>@join.Title.Name | Copies: @join.Title.Copies</h3>
     @using (Html.BeginForm("DeleteJoin", "Authors"))
     {
       @Html.Hidden("joinId", @join.AuthorTitleId)

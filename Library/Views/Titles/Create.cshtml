@@ -15,10 +15,12 @@ else
   @using (Html.BeginForm())
   {
     @Html.LabelFor(model => model.Name);
-    @Html.TextBoxFor(model => model.Name);
+    @Html.TextBoxFor(model => model.Name);<br>
+    @Html.LabelFor(model => model.Copies);
+    @Html.TextBoxFor(model => model.Copies, new { type="number", min="1", max="100" });
     <br>
-    @Html.Label("Select Author");
-    @Html.DropDownList("AuthorId");
+    @* @Html.Label("Select Author");
+    @Html.DropDownList("AuthorId"); *@
     <br>
     <input type="submit" value="Add a Title"/>
   }

@@ -3,6 +3,7 @@ using System;
 using Library.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Library.Migrations
 {
     [DbContext(typeof(LibraryContext))]
-    partial class LibraryContextModelSnapshot : ModelSnapshot
+    [Migration("20230110221004_AddCheckout")]
+    partial class AddCheckout
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -154,9 +156,14 @@ namespace Library.Migrations
                     b.Property<bool>("Available")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<int?>("TitleId")
+                        .HasColumnType("int");
+
                     b.HasKey("CopyId");
 
                     b.HasIndex("AuthorTitleId");
+
+                    b.HasIndex("TitleId");
 
                     b.ToTable("Copies");
                 });
@@ -181,18 +188,10 @@ namespace Library.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("Copies")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("varchar(255)");
-
                     b.HasKey("TitleId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Titles");
                 });
@@ -371,16 +370,11 @@ namespace Library.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Library.Models.Title", null)
+                        .WithMany("Copies")
+                        .HasForeignKey("TitleId");
+
                     b.Navigation("AuthorTitle");
-                });
-
-            modelBuilder.Entity("Library.Models.Title", b =>
-                {
-                    b.HasOne("Library.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -451,6 +445,8 @@ namespace Library.Migrations
 
             modelBuilder.Entity("Library.Models.Title", b =>
                 {
+                    b.Navigation("Copies");
+
                     b.Navigation("JoinEntities");
                 });
 #pragma warning restore 612, 618

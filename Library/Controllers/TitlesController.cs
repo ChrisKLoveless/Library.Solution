@@ -1,13 +1,17 @@
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Library.Models;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
-using Library.Models;
+using System.Security.Claims;
 
 namespace Library.Controllers
 {
+  [Authorize]
   public class TitlesController : Controller
   {
     private readonly LibraryContext _db;
@@ -39,6 +43,10 @@ namespace Library.Controllers
       else
       {
         _db.Titles.Add(titles);
+        for (int i = 1; i <= titles.Copies; i++) 
+        {
+          
+        }
         _db.SaveChanges();
         return RedirectToAction("Index");
       }
